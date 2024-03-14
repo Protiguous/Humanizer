@@ -16,7 +16,7 @@ All languages: `Humanizer`
 
 The following frameworks are supported: net4.8, net6, net7, and net8
 
-Note: The nuget also targets netstandard2. This is to enable scenario where netstandard2 is required. For example Roslyn Analyzers or MSBuil tasks. Other frameworks (other than listed above) that can consume netstandard2 (example net4.6.1 through to net 4.7.2) are not supported. For example net4.6.1 through to net4.7.2 are not supported.
+Note: The nuget also targets netstandard2. This is to enable scenario where netstandard2 is required. For example Roslyn Analyzers or MSBuild tasks. Other frameworks (other than listed above) that can consume netstandard2 (example net4.6.1 through to net 4.7.2) are not supported. For example net4.6.1 through to net4.7.2 are not supported.
 
 Also Humanizer symbols are source indexed with [SourceLink](https://github.com/dotnet/sourcelink) and are included in the package so you can step through Humanizer code while debugging your code.
 
@@ -43,34 +43,34 @@ The detailed explanation for how this works is in the comments [here](https://gi
 The foundation of this was set in the [BDDfy framework](https://github.com/TestStack/TestStack.BDDfy) where class names, method names and properties are turned into human readable sentences.
 
 ```C#
-"PascalCaseInputStringIsTurnedIntoSentence".Humanize() => "Pascal case input string is turned into sentence"
+"PascalCaseInputStringIsTurnedIntoSentence".Humanize() => "Pascal case input string is turned into sentence";
 
-"Underscored_input_string_is_turned_into_sentence".Humanize() => "Underscored input string is turned into sentence"
+"Underscored_input_string_is_turned_into_sentence".Humanize() => "Underscored input string is turned into sentence";
 
-"Underscored_input_String_is_turned_INTO_sentence".Humanize() => "Underscored input String is turned INTO sentence"
+"Underscored_input_String_is_turned_INTO_sentence".Humanize() => "Underscored input String is turned INTO sentence";
 ```
 
 Note that a string that contains only upper case letters, and consists only of one word, is always treated as an acronym (regardless of its length). To guarantee that any arbitrary string will always be humanized you must use a transform (see `Transform` method below):
 
 ```C#
 // acronyms are left intact
-"HTML".Humanize() => "HTML"
+"HTML".Humanize() => "HTML";
 
 // any unbroken upper case string is treated as an acronym
-"HUMANIZER".Humanize() => "HUMANIZER"
-"HUMANIZER".Transform(To.LowerCase, To.TitleCase) => "Humanizer"
+"HUMANIZER".Humanize() => "HUMANIZER";
+"HUMANIZER".Transform(To.LowerCase, To.TitleCase) => "Humanizer";
 ```
 
 You may also specify the desired letter casing:
 
 ```C#
-"CanReturnTitleCase".Humanize(LetterCasing.Title) => "Can Return Title Case"
+"CanReturnTitleCase".Humanize(LetterCasing.Title) => "Can Return Title Case";
 
-"Can_return_title_Case".Humanize(LetterCasing.Title) => "Can Return Title Case"
+"Can_return_title_Case".Humanize(LetterCasing.Title) => "Can Return Title Case";
 
-"CanReturnLowerCase".Humanize(LetterCasing.LowerCase) => "can return lower case"
+"CanReturnLowerCase".Humanize(LetterCasing.LowerCase) => "can return lower case";
 
-"CanHumanizeIntoUpperCase".Humanize(LetterCasing.AllCaps) => "CAN HUMANIZE INTO UPPER CASE"
+"CanHumanizeIntoUpperCase".Humanize(LetterCasing.AllCaps) => "CAN HUMANIZE INTO UPPER CASE";
 ```
 
  > The `LetterCasing` API and the methods accepting it are legacy from V0.2 era and will be deprecated in the future. Instead of that, you can use `Transform` method explained below.
@@ -81,7 +81,7 @@ You may also specify the desired letter casing:
 Much like you can humanize a computer friendly into human friendly string you can dehumanize a human friendly string into a computer friendly one:
 
 ```C#
-"Pascal case input string is turned into sentence".Dehumanize() => "PascalCaseInputStringIsTurnedIntoSentence"
+"Pascal case input string is turned into sentence".Dehumanize() => "PascalCaseInputStringIsTurnedIntoSentence";
 ```
 
 
@@ -97,10 +97,10 @@ string Transform(this string input, params IStringTransformer[] transformers)
 And there are some out of the box implementations of `IStringTransformer` for letter casing:
 
 ```C#
-"Sentence casing".Transform(To.LowerCase) => "sentence casing"
-"Sentence casing".Transform(To.SentenceCase) => "Sentence casing"
-"Sentence casing".Transform(To.TitleCase) => "Sentence Casing"
-"Sentence casing".Transform(To.UpperCase) => "SENTENCE CASING"
+"Sentence casing".Transform(To.LowerCase) => "sentence casing";
+"Sentence casing".Transform(To.SentenceCase) => "Sentence casing";
+"Sentence casing".Transform(To.TitleCase) => "Sentence Casing";
+"Sentence casing".Transform(To.UpperCase) => "SENTENCE CASING";
 ```
 
 `LowerCase` is a public static property on `To` class that returns an instance of private `ToLowerCase` class that implements `IStringTransformer` and knows how to turn a string into lower case.
@@ -114,13 +114,13 @@ while `IStringTransformer` is an interface you can implement in your codebase on
 You can truncate a `string` using the `Truncate` method:
 
 ```c#
-"Long text to truncate".Truncate(10) => "Long text…"
+"Long text to truncate".Truncate(10) => "Long text…";
 ```
 
 By default the `'…'` character is used to truncate strings. The advantage of using the `'…'` character instead of `"..."` is that the former only takes a single character and thus allows more text to be shown before truncation. If you want, you can also provide your own truncation string:
 
 ```c#
-"Long text to truncate".Truncate(10, "---") => "Long te---"
+"Long text to truncate".Truncate(10, "---") => "Long te---";
 ```
 
 The default truncation strategy, `Truncator.FixedLength`, is to truncate the input string to a specific length, including the truncation string length.
@@ -129,14 +129,14 @@ To use a specific truncator when truncating, the two `Truncate` methods shown in
 Here are examples on how to use the three provided truncators:
 
 ```c#
-"Long text to truncate".Truncate(10, Truncator.FixedLength) => "Long text…"
-"Long text to truncate".Truncate(10, "---", Truncator.FixedLength) => "Long te---"
+"Long text to truncate".Truncate(10, Truncator.FixedLength) => "Long text…";
+"Long text to truncate".Truncate(10, "---", Truncator.FixedLength) => "Long te---";
 
-"Long text to truncate".Truncate(6, Truncator.FixedNumberOfCharacters) => "Long t…"
-"Long text to truncate".Truncate(6, "---", Truncator.FixedNumberOfCharacters) => "Lon---"
+"Long text to truncate".Truncate(6, Truncator.FixedNumberOfCharacters) => "Long t…";
+"Long text to truncate".Truncate(6, "---", Truncator.FixedNumberOfCharacters) => "Lon---";
 
-"Long text to truncate".Truncate(2, Truncator.FixedNumberOfWords) => "Long text…"
-"Long text to truncate".Truncate(2, "---", Truncator.FixedNumberOfWords) => "Long text---"
+"Long text to truncate".Truncate(2, Truncator.FixedNumberOfWords) => "Long text…";
+"Long text to truncate".Truncate(2, "---", Truncator.FixedNumberOfWords) => "Long text---";
 ```
 
 Note that you can also use create your own truncator by implementing the `ITruncator` interface.
@@ -145,14 +145,14 @@ There is also an option to choose whether to truncate the string from the beginn
 Default is the right as shown in the examples above. The examples below show how to truncate from the beginning of the string:
 
 ```c#
-"Long text to truncate".Truncate(10, Truncator.FixedLength, TruncateFrom.Left) => "… truncate"
-"Long text to truncate".Truncate(10, "---", Truncator.FixedLength, TruncateFrom.Left) => "---runcate"
+"Long text to truncate".Truncate(10, Truncator.FixedLength, TruncateFrom.Left) => "… truncate";
+"Long text to truncate".Truncate(10, "---", Truncator.FixedLength, TruncateFrom.Left) => "---runcate";
 
-"Long text to truncate".Truncate(10, Truncator.FixedNumberOfCharacters, TruncateFrom.Left) => "…o truncate"
-"Long text to truncate".Truncate(16, "---", Truncator.FixedNumberOfCharacters, TruncateFrom.Left) => "---ext to truncate"
+"Long text to truncate".Truncate(10, Truncator.FixedNumberOfCharacters, TruncateFrom.Left) => "…o truncate";
+"Long text to truncate".Truncate(16, "---", Truncator.FixedNumberOfCharacters, TruncateFrom.Left) => "---ext to truncate";
 
-"Long text to truncate".Truncate(2, Truncator.FixedNumberOfWords, TruncateFrom.Left) => "…to truncate"
-"Long text to truncate".Truncate(2, "---", Truncator.FixedNumberOfWords, TruncateFrom.Left) => "---to truncate"
+"Long text to truncate".Truncate(2, Truncator.FixedNumberOfWords, TruncateFrom.Left) => "…to truncate";
+"Long text to truncate".Truncate(2, "---", Truncator.FixedNumberOfWords, TruncateFrom.Left) => "---to truncate";
 ```
 
 
@@ -174,13 +174,13 @@ You will get:
 
 ```C#
 // DescriptionAttribute is honored
-EnumUnderTest.MemberWithDescriptionAttribute.Humanize() => "Custom description"
+EnumUnderTest.MemberWithDescriptionAttribute.Humanize() => "Custom description";
 
 // In the absence of Description attribute string.Humanizer kicks in
-EnumUnderTest.MemberWithoutDescriptionAttribute.Humanize() => "Member without description attribute"
+EnumUnderTest.MemberWithoutDescriptionAttribute.Humanize() => "Member without description attribute";
 
 // Of course you can still apply letter casing
-EnumUnderTest.MemberWithoutDescriptionAttribute.Humanize().Transform(To.TitleCase) => "Member Without Description Attribute"
+EnumUnderTest.MemberWithoutDescriptionAttribute.Humanize().Transform(To.TitleCase) => "Member Without Description Attribute";
 ```
 
 You are not limited to `DescriptionAttribute` for custom description. Any attribute applied on enum members with a `string Description` property counts.
@@ -203,7 +203,7 @@ public enum EnumUnderTest
 You will get:
 
 ```C#
-EnumUnderTest.Member.Humanize() => "content" // from Project.Resources found under "EnumUnderTest_Member" resource key
+EnumUnderTest.Member.Humanize() => "content"; // from Project.Resources found under "EnumUnderTest_Member" resource key
 ```
 
 Hopefully this will help avoid littering enums with unnecessary attributes!
@@ -220,7 +220,7 @@ public static TTargetEnum DehumanizeTo<TTargetEnum>(this string input)
 And the usage is:
 
 ```C#
-"Member without description attribute".DehumanizeTo<EnumUnderTest>() => EnumUnderTest.MemberWithoutDescriptionAttribute
+"Member without description attribute".DehumanizeTo<EnumUnderTest>() => EnumUnderTest.MemberWithoutDescriptionAttribute;
 ```
 
 And just like the Humanize API it honors the `Description` attribute. You don't have to provide the casing you provided during humanization: it figures it out.
@@ -228,13 +228,13 @@ And just like the Humanize API it honors the `Description` attribute. You don't 
 There is also a non-generic counterpart for when the original Enum is not known at compile time:
 
 ```C#
-public static Enum DehumanizeTo(this string input, Type targetEnum, NoMatch onNoMatch = NoMatch.ThrowsException)
+public static Enum DehumanizeTo(this string input, Type targetEnum, NoMatch onNoMatch = NoMatch.ThrowsException);
 ```
 
 which can be used like:
 
 ```C#
-"Member without description attribute".DehumanizeTo(typeof(EnumUnderTest)) => EnumUnderTest.MemberWithoutDescriptionAttribute
+"Member without description attribute".DehumanizeTo(typeof(EnumUnderTest)) => EnumUnderTest.MemberWithoutDescriptionAttribute;
 ```
 
 By default both methods throw a `NoMatchFoundException` when they cannot match the provided input against the target enum.
@@ -246,13 +246,13 @@ In the non-generic method you can also ask the method to return null by setting 
 You can `Humanize` an instance of `DateTime` or `DateTimeOffset` and get back a string telling how far back or forward in time that is:
 
 ```C#
-DateTime.UtcNow.AddHours(-30).Humanize() => "yesterday"
-DateTime.UtcNow.AddHours(-2).Humanize() => "2 hours ago"
+DateTime.UtcNow.AddHours(-30).Humanize() => "yesterday";
+DateTime.UtcNow.AddHours(-2).Humanize() => "2 hours ago";
 
-DateTime.UtcNow.AddHours(30).Humanize() => "tomorrow"
-DateTime.UtcNow.AddHours(2).Humanize() => "2 hours from now"
+DateTime.UtcNow.AddHours(30).Humanize() => "tomorrow";
+DateTime.UtcNow.AddHours(2).Humanize() => "2 hours from now";
 
-DateTimeOffset.UtcNow.AddHours(1).Humanize() => "an hour from now"
+DateTimeOffset.UtcNow.AddHours(1).Humanize() => "an hour from now";
 ```
 
 Humanizer supports both local and UTC dates as well as dates with offset (`DateTimeOffset`). You could also provide the date you want the input date to be compared against. If null, it will use the current date as comparison base.
@@ -260,26 +260,26 @@ Also, culture to use can be specified explicitly. If it is not, current thread's
 Here is the API signature:
 
 ```C#
-public static string Humanize(this DateTime input, bool utcDate = true, DateTime? dateToCompareAgainst = null, CultureInfo culture = null)
-public static string Humanize(this DateTimeOffset input, DateTimeOffset? dateToCompareAgainst = null, CultureInfo culture = null)
+public static string Humanize(this DateTime input, bool utcDate = true, DateTime? dateToCompareAgainst = null, CultureInfo culture = null);
+public static string Humanize(this DateTimeOffset input, DateTimeOffset? dateToCompareAgainst = null, CultureInfo culture = null);
 ```
 
 Many localizations are available for this method. Here is a few examples:
 
 ```C#
 // In ar culture
-DateTime.UtcNow.AddDays(-1).Humanize() => "أمس"
-DateTime.UtcNow.AddDays(-2).Humanize() => "منذ يومين"
-DateTime.UtcNow.AddDays(-3).Humanize() => "منذ 3 أيام"
-DateTime.UtcNow.AddDays(-11).Humanize() => "منذ 11 يوم"
+DateTime.UtcNow.AddDays(-1).Humanize() => "أمس";
+DateTime.UtcNow.AddDays(-2).Humanize() => "منذ يومين";
+DateTime.UtcNow.AddDays(-3).Humanize() => "منذ 3 أيام";
+DateTime.UtcNow.AddDays(-11).Humanize() => "منذ 11 يوم";
 
 // In ru-RU culture
-DateTime.UtcNow.AddMinutes(-1).Humanize() => "минуту назад"
-DateTime.UtcNow.AddMinutes(-2).Humanize() => "2 минуты назад"
-DateTime.UtcNow.AddMinutes(-10).Humanize() => "10 минут назад"
-DateTime.UtcNow.AddMinutes(-21).Humanize() => "21 минуту назад"
-DateTime.UtcNow.AddMinutes(-22).Humanize() => "22 минуты назад"
-DateTime.UtcNow.AddMinutes(-40).Humanize() => "40 минут назад"
+DateTime.UtcNow.AddMinutes(-1).Humanize() => "минуту назад";
+DateTime.UtcNow.AddMinutes(-2).Humanize() => "2 минуты назад";
+DateTime.UtcNow.AddMinutes(-10).Humanize() => "10 минут назад";
+DateTime.UtcNow.AddMinutes(-21).Humanize() => "21 минуту назад";
+DateTime.UtcNow.AddMinutes(-22).Humanize() => "22 минуты назад";
+DateTime.UtcNow.AddMinutes(-40).Humanize() => "40 минут назад";
 ```
 
 There are two strategies for `DateTime.Humanize`: the default one as seen above and a precision based one.
@@ -292,7 +292,7 @@ Configurator.DateTimeOffsetHumanizeStrategy = new PrecisionDateTimeOffsetHumaniz
 
 The default precision is set to .75 but you can pass your desired precision too. With precision set to 0.75:
 
-```C#
+```
 44 seconds => 44 seconds ago/from now
 45 seconds => one minute ago/from now
 104 seconds => one minute ago/from now
@@ -309,10 +309,10 @@ The default precision is set to .75 but you can pass your desired precision too.
 You can call `Humanize` on a `TimeSpan` to a get human friendly representation for it:
 
 ```C#
-TimeSpan.FromMilliseconds(1).Humanize() => "1 millisecond"
-TimeSpan.FromMilliseconds(2).Humanize() => "2 milliseconds"
-TimeSpan.FromDays(1).Humanize() => "1 day"
-TimeSpan.FromDays(16).Humanize() => "2 weeks"
+TimeSpan.FromMilliseconds(1).Humanize() => "1 millisecond";
+TimeSpan.FromMilliseconds(2).Humanize() => "2 milliseconds";
+TimeSpan.FromDays(1).Humanize() => "1 day";
+TimeSpan.FromDays(16).Humanize() => "2 weeks";
 ```
 
 There is an optional `precision` parameter for `TimeSpan.Humanize` which allows you to specify the precision of the returned value.
@@ -320,14 +320,14 @@ The default value of `precision` is 1 which means only the largest time unit is 
 Here is a few examples of specifying precision:
 
 ```C#
-TimeSpan.FromDays(1).Humanize(precision:2) => "1 day" // no difference when there is only one unit in the provided TimeSpan
-TimeSpan.FromDays(16).Humanize(2) => "2 weeks, 2 days"
+TimeSpan.FromDays(1).Humanize(precision:2) => "1 day"; // no difference when there is only one unit in the provided TimeSpan
+TimeSpan.FromDays(16).Humanize(2) => "2 weeks, 2 days";
 
 // the same TimeSpan value with different precision returns different results
-TimeSpan.FromMilliseconds(1299630020).Humanize() => "2 weeks"
-TimeSpan.FromMilliseconds(1299630020).Humanize(3) => "2 weeks, 1 day, 1 hour"
-TimeSpan.FromMilliseconds(1299630020).Humanize(4) => "2 weeks, 1 day, 1 hour, 30 seconds"
-TimeSpan.FromMilliseconds(1299630020).Humanize(5) => "2 weeks, 1 day, 1 hour, 30 seconds, 20 milliseconds"
+TimeSpan.FromMilliseconds(1299630020).Humanize() => "2 weeks";
+TimeSpan.FromMilliseconds(1299630020).Humanize(3) => "2 weeks, 1 day, 1 hour";
+TimeSpan.FromMilliseconds(1299630020).Humanize(4) => "2 weeks, 1 day, 1 hour, 30 seconds";
+TimeSpan.FromMilliseconds(1299630020).Humanize(5) => "2 weeks, 1 day, 1 hour, 30 seconds, 20 milliseconds";
 ```
 
 By default when using `precision` parameter empty time units are not counted towards the precision of the returned value.
@@ -335,39 +335,39 @@ If this behavior isn't desired for you, you can use the overloaded `TimeSpan.Hum
 Here is an example showing the difference of counting empty units:
 
 ```C#
-TimeSpan.FromMilliseconds(3603001).Humanize(3) => "1 hour, 3 seconds, 1 millisecond"
-TimeSpan.FromMilliseconds(3603001).Humanize(3, countEmptyUnits:true) => "1 hour, 3 seconds"
+TimeSpan.FromMilliseconds(3603001).Humanize(3) => "1 hour, 3 seconds, 1 millisecond";
+TimeSpan.FromMilliseconds(3603001).Humanize(3, countEmptyUnits:true) => "1 hour, 3 seconds";
 ```
 
 Many localizations are available for this method:
 
 ```C#
 // in de-DE culture
-TimeSpan.FromDays(1).Humanize() => "Ein Tag"
-TimeSpan.FromDays(2).Humanize() => "2 Tage"
+TimeSpan.FromDays(1).Humanize() => "Ein Tag";
+TimeSpan.FromDays(2).Humanize() => "2 Tage";
 
 // in sk-SK culture
-TimeSpan.FromMilliseconds(1).Humanize() => "1 milisekunda"
-TimeSpan.FromMilliseconds(2).Humanize() => "2 milisekundy"
-TimeSpan.FromMilliseconds(5).Humanize() => "5 milisekúnd"
+TimeSpan.FromMilliseconds(1).Humanize() => "1 milisekunda";
+TimeSpan.FromMilliseconds(2).Humanize() => "2 milisekundy";
+TimeSpan.FromMilliseconds(5).Humanize() => "5 milisekúnd";
 ```
 
 Culture to use can be specified explicitly. If it is not, current thread's current UI culture is used. Example:
 
 ```C#
-TimeSpan.FromDays(1).Humanize(culture: "ru-RU") => "один день"
+TimeSpan.FromDays(1).Humanize(culture: "ru-RU") => "один день";
 ```
 
 In addition, a minimum unit of time may be specified to avoid rolling down to a smaller unit. For example:
   ```C#
-  TimeSpan.FromMilliseconds(122500).Humanize(minUnit: TimeUnit.Second) => "2 minutes, 2 seconds"    // instead of 2 minutes, 2 seconds, 500 milliseconds
-  TimeSpan.FromHours(25).Humanize(minUnit: TimeUnit.Day) => "1 Day"   //instead of 1 Day, 1 Hour
+  TimeSpan.FromMilliseconds(122500).Humanize(minUnit: TimeUnit.Second) => "2 minutes, 2 seconds";    // instead of 2 minutes, 2 seconds, 500 milliseconds
+  TimeSpan.FromHours(25).Humanize(minUnit: TimeUnit.Day) => "1 Day";   //instead of 1 Day, 1 Hour
   ```
 
 In addition, a maximum unit of time may be specified to avoid rolling up to the next largest unit. For example:
 ```C#
-TimeSpan.FromDays(7).Humanize(maxUnit: TimeUnit.Day) => "7 days"    // instead of 1 week
-TimeSpan.FromMilliseconds(2000).Humanize(maxUnit: TimeUnit.Millisecond) => "2000 milliseconds"    // instead of 2 seconds
+TimeSpan.FromDays(7).Humanize(maxUnit: TimeUnit.Day) => "7 days";    // instead of 1 week
+TimeSpan.FromMilliseconds(2000).Humanize(maxUnit: TimeUnit.Millisecond) => "2000 milliseconds";    // instead of 2 seconds
 ```
 The default maxUnit is `TimeUnit.Week` because it gives exact results. You can increase this value to `TimeUnit.Month` or `TimeUnit.Year` which will give you an approximation based on 365.2425 days a year and 30.436875 days a month. Therefore the months are alternating between 30 and 31 days in length and every fourth year is 366 days long.
 ```C#
